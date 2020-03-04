@@ -3,12 +3,13 @@ package com.example.moneyconverter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moneyconverter.Utils.AppUtils.INITIAL_DELAY
+import com.example.moneyconverter.Utils.AppUtils.REFRESH_TIMESTAMP
 import com.example.moneyconverter.Utils.AppUtils.tempRatesList
 import com.example.moneyconverter.adapter.RatesAdapter
 import com.example.moneyconverter.data.RateBase
@@ -16,7 +17,13 @@ import com.example.moneyconverter.network.RatesConverterClient
 import com.example.moneyconverter.network.RatesConverterInterface
 import com.example.moneyconverter.repository.RatesRepository
 import com.example.moneyconverter.viewmodel.RatesViewModel
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var repository: RatesRepository
 
     private lateinit var ratesList: MutableList<RateBase>
+    private val compositeDisposable = CompositeDisposable()
+    private lateinit var ratesDisposable: Disposable
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,19 +42,54 @@ class MainActivity : AppCompatActivity() {
 
         val ratesService: RatesConverterInterface = RatesConverterClient.getClient()
         repository = RatesRepository(ratesService)
-
         viewModel = getViewModel()
-        viewModel.ratesInfo.observe(this, Observer{rateObject ->
-            ratesList = rateObject.rate ?: tempRatesList
-            setRatesRecyclerView()
-        })
 
+        ratesDisposable = Observable.interval(INITIAL_DELAY, REFRESH_TIMESTAMP,
+            TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::callApi)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::ratesDisposable.isInitialized && ratesDisposable.isDisposed) {
+            ratesDisposable = Observable.interval(INITIAL_DELAY, REFRESH_TIMESTAMP,
+                TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::callApi)
+        }
     }
 
     private fun setRatesRecyclerView() {
         rates_list_recycler_view?.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
             adapter = RatesAdapter(ratesList)
+        }
+    }
+
+    private fun callApi(long: Long) {
+        compositeDisposable.add(viewModel.ratesInfo
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe  (
+                {
+                    Log.d("abab", "rate object: $it")
+                    ratesList = it.rate ?: tempRatesList
+                    setRatesRecyclerView()
+
+                    header_text_view?.text = getString(R.string.currencies_based_on, it.base)
+
+                    val textCurrentTimestamp = getString(R.string.current_timestamp, System.currentTimeMillis().toString())
+                    timestamp_text_view?.text = textCurrentTimestamp
+                },
+                { Log.d("abab", "Error occured while getting the rate object: $it") }))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        compositeDisposable.clear()
+        if (::ratesDisposable.isInitialized && !ratesDisposable.isDisposed) {
+            ratesDisposable.dispose()
         }
     }
 

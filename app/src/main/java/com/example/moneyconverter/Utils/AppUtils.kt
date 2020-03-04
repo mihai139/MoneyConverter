@@ -11,7 +11,8 @@ import com.example.moneyconverter.data.RateBase
 object AppUtils {
 
     const val BASE_URL: String = "https://api.exchangeratesapi.io"
-    const val TAG: String = "RatesConverterTag"
+    const val INITIAL_DELAY = 100L
+    const val REFRESH_TIMESTAMP = 3000L
 
     val tempRatesList = mutableListOf<RateBase>(
         RateBase("CAD", 1.4857),

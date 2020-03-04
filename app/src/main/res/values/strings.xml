@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MoneyConverter</string>
+    <string name="current_timestamp">Current timestamp %1$s</string>
+    <string name="currencies_based_on">Currencies based on %1$s</string>
+
 </resources>

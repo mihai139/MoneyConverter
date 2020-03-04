@@ -1,10 +1,9 @@
 package com.example.moneyconverter.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.moneyconverter.data.RateObject
 import com.example.moneyconverter.repository.RatesRepository
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.Observable
 
 /**
  * TODO: Comment
@@ -13,14 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
  */
 class RatesViewModel(private val ratesRepository: RatesRepository) : ViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
-
-    val ratesInfo: LiveData<RateObject> by lazy {
-        ratesRepository.fetchRatesDetails(compositeDisposable)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
+    val ratesInfo: Observable<RateObject> by lazy {
+        ratesRepository.fetchRatesDetails()
     }
 }
