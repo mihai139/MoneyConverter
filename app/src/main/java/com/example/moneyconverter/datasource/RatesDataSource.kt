@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.moneyconverter.Utils.AppUtils.TAG
-import com.example.moneyconverter.data.Rate
+import com.example.moneyconverter.data.RateObject
 import com.example.moneyconverter.network.RatesConverterInterface
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,9 +16,9 @@ import io.reactivex.schedulers.Schedulers
  */
 class RatesDataSource(private val apiService: RatesConverterInterface, private val compositeDisposable: CompositeDisposable) {
 
-    private val _ratesResponse = MutableLiveData<Rate>()
+    private val _ratesResponse = MutableLiveData<RateObject>()
 
-    val ratesResponse : LiveData<Rate>
+    val ratesResponse : LiveData<RateObject>
         get() = _ratesResponse
 
     fun fetchData() {
@@ -27,7 +27,7 @@ class RatesDataSource(private val apiService: RatesConverterInterface, private v
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                     {
-                        Log.d(TAG, "Successfully getting rates")
+                        Log.d("abab", "Successfully getting rates $it")
                         _ratesResponse.postValue(it)
                     },
                     { Log.e(TAG, "Error getting rates: ", it) }

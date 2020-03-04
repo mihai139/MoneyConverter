@@ -2,7 +2,7 @@ package com.example.moneyconverter.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.moneyconverter.data.Rate
+import com.example.moneyconverter.data.RateObject
 import com.example.moneyconverter.repository.RatesRepository
 import io.reactivex.disposables.CompositeDisposable
 
@@ -15,7 +15,7 @@ class RatesViewModel(private val ratesRepository: RatesRepository) : ViewModel()
 
     private val compositeDisposable = CompositeDisposable()
 
-    val ratesInfo: LiveData<Rate> by lazy {
+    val ratesInfo: LiveData<RateObject> by lazy {
         ratesRepository.fetchRatesDetails(compositeDisposable)
     }
 

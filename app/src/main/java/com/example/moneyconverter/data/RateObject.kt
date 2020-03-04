@@ -3,11 +3,11 @@ package com.example.moneyconverter.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Rate(
+data class RateObject(
     @SerializedName("base")
     val base: String,
     @SerializedName("date")
     val date: String,
-    @SerializedName("rates")
-    val rates: Rates
+    @SerializedName("rate")
+    val rate: MutableList<RateBase>?
 )
