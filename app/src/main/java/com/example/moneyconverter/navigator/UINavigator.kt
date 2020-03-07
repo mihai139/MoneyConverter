@@ -1,5 +1,6 @@
 package com.example.moneyconverter.navigator
 
+import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -15,9 +16,17 @@ import com.example.moneyconverter.ui.HomeFragment
  */
 class UINavigator(private val activity: FragmentActivity) {
 
-    fun showHomeScreen() {
+    fun showHomeScreen(pair: Pair<String, Float>? = null) {
+
+        val homeFragment = HomeFragment()
+        if (pair != null) {
+            val args = Bundle()
+            args.putSerializable(BUNDLE_PAIR_OBJECT, pair)
+            homeFragment.arguments = args
+        }
+
         activity.supportFragmentManager.inTransaction {
-            replace(R.id.ui_screen, HomeFragment())
+            replace(R.id.ui_screen, homeFragment)
         }
     }
 
@@ -39,5 +48,9 @@ class UINavigator(private val activity: FragmentActivity) {
         val fragmentTransaction = beginTransaction()
         fragmentTransaction.func()
         fragmentTransaction.commit()
+    }
+
+    companion object {
+        const val BUNDLE_PAIR_OBJECT = "Bundle_pair_object"
     }
 }

@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
  * @author Mihai Andrei on 3/4/20
  */
 
-class RatesAdapter(private val ratesList: List<String>) : RecyclerView.Adapter<RatesViewHolder>() {
+class RatesAdapter : RecyclerView.Adapter<RatesViewHolder>() {
+
+    private val items = mutableListOf<Pair<String, Float>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -18,14 +20,14 @@ class RatesAdapter(private val ratesList: List<String>) : RecyclerView.Adapter<R
     }
 
     override fun onBindViewHolder(holder: RatesViewHolder, position: Int) {
-
-        val currencyName = ratesList[position].substringBefore("=")
-        val currencyValue = ratesList[position].substringAfter("=").toFloat()
-
-        val rateBase: Pair<String, Float> = Pair(currencyName, currencyValue)
-        holder.bind(rateBase)
+        holder.bind(items[position])
     }
 
-    override fun getItemCount(): Int = ratesList.size
+    fun setItems(items: List<Pair<String, Float>>) {
+        this.items.clear()
+        this.items.addAll(items)
+        notifyDataSetChanged()
+    }
 
+    override fun getItemCount(): Int = items.size
 }

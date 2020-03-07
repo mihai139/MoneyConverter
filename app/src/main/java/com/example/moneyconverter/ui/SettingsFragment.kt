@@ -53,16 +53,12 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun configureRefreshRateSpinner() {
-        // Initializing an ArrayAdapter
         val adapter = ArrayAdapter(this@SettingsFragment.context!!, android.R.layout.simple_spinner_item, REFRESH_TIMESTAMPS)
-
-        // Set the drop down view resource
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
 
-        // Finally, data bind the spinner object with adapter
         refresh_rate_spinner.adapter = adapter
+        refresh_rate_spinner.setSelection(0, false)
 
-        // Set an on item selected listener for spinner object
         refresh_rate_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
                 AppUtils.AppPreferences.refreshRate = parent.getItemAtPosition(position) as Int
@@ -89,29 +85,30 @@ class SettingsFragment : BaseFragment() {
                         spinnerList.add(index, s.substringBefore("="))
                     }
 
-                    // Initializing an ArrayAdapter
                     val adapter = ArrayAdapter(this@SettingsFragment.context!!, android.R.layout.simple_spinner_item, spinnerList)
-
-                    // Set the drop down view resource
                     adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
 
-                    // Finally, data bind the spinner object with adapter
                     refresh_currency_spinner.adapter = adapter
+                    refresh_currency_spinner.setSelection(0, false)
+
+                    refresh_currency_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+                        override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
+                            logV("Spinner selected : ${parent.getItemAtPosition(position)}")
+
+                            ratesList.forEachIndexed { index, s ->
+                                if (parent.getItemAtPosition(position).toString() == s.substringBefore("=")) {
+                                    logV("onItemSelected")
+                                    val pair = Pair(s.substringBefore("="), s.substringAfter("=").toFloat())
+                                    uiNavigator.showHomeScreen(pair)
+                                }
+                            }
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>){
+                            logV("Nothing was selected")
+                        }
+                    }
                 },
                 { logV( "Error occured while getting the rate object: $it") }))
-
-
-
-        // Set an on item selected listener for spinner object
-        refresh_currency_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
-               // AppUtils.AppPreferences.refreshRate = parent.getItemAtPosition(position) as Int
-                logV("Spinner selected : ${parent.getItemAtPosition(position)}")
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>){
-                logV("Nothing was selected")
-            }
-        }
     }
 }

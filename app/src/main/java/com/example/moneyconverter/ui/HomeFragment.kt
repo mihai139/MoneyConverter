@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyconverter.R
@@ -14,6 +11,7 @@ import com.example.moneyconverter.Utils.AppUtils
 import com.example.moneyconverter.Utils.AppUtils.INITIAL_DELAY
 import com.example.moneyconverter.Utils.AppUtils.logV
 import com.example.moneyconverter.adapter.RatesAdapter
+import com.example.moneyconverter.navigator.UINavigator.Companion.BUNDLE_PAIR_OBJECT
 import com.example.moneyconverter.viewmodel.RatesViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,8 +30,19 @@ import java.util.concurrent.TimeUnit
 class HomeFragment : BaseFragment() {
     private lateinit var ratesDisposable: Disposable
 
+    private val ratesAdapter by lazy { RatesAdapter() }
+    private val pair: Pair<String, Float>? by lazy { arguments?.getSerializable(BUNDLE_PAIR_OBJECT) as Pair<String, Float>? }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.home_layout, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rates_list_recycler_view?.apply {
+            layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            adapter = ratesAdapter
+        }
     }
 
     override fun onResume() {
@@ -46,13 +55,6 @@ class HomeFragment : BaseFragment() {
             .subscribe(this::callApi)
     }
 
-    private fun setRatesRecyclerView(ratesList: List<String>) {
-        rates_list_recycler_view?.apply {
-            layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            adapter = RatesAdapter(ratesList)
-        }
-    }
-
     private fun callApi(long: Long) {
         compositeDisposable.add(getViewModel<RatesViewModel>().ratesInfo
             .subscribeOn(Schedulers.newThread())
@@ -60,9 +62,18 @@ class HomeFragment : BaseFragment() {
             .subscribe  (
                 {
                     val ratesList = it.rates.toString().substringAfter("(").substringBefore(")").split(',').toList()
-                    setRatesRecyclerView(ratesList)
+                    val pairList = mutableListOf<Pair<String, Float>>()
 
-                    header_text_view?.text = getString(R.string.currencies_based_on, it.base)
+                    ratesList.forEach {  s ->
+                        val currencyValue = String.format("%.4f", if (pair == null) s.substringAfter("=").toFloat()
+                        else s.substringAfter("=").toFloat() / pair!!.second)
+                        pairList.add(Pair(s.substringBefore("="), currencyValue.toFloat()))
+                    }
+
+                    ratesAdapter.setItems(pairList)
+
+                    val baseCurrency = if (pair == null) it.base else pair?.first
+                    header_text_view?.text = getString(R.string.currencies_based_on, baseCurrency)
 
                     val textCurrentTimestamp = getString(R.string.current_timestamp, System.currentTimeMillis().toString())
                     timestamp_text_view?.text = textCurrentTimestamp
