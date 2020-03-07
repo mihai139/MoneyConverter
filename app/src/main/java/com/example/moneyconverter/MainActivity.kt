@@ -2,10 +2,9 @@ package com.example.moneyconverter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.example.moneyconverter.Utils.AppUtils.TAG
+import com.example.moneyconverter.Utils.AppUtils.logV
 import com.example.moneyconverter.navigator.UINavigator
 
 class MainActivity : AppCompatActivity() {
@@ -28,17 +27,17 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.history -> {
-                Log.d(TAG, "History pressed")
+                logV("History pressed")
                 uiNavigator.showHistoryScreen()
                 true
             }
             R.id.settings -> {
-                Log.d(TAG,"Settings pressed")
+                logV("Settings pressed")
                 uiNavigator.showSettingsScreen()
                 true
             }
             else -> {
-                Log.d(TAG, "No action to be taken")
+                logV( "No action to be taken")
                 super.onOptionsItemSelected(item)
             }
         }

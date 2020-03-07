@@ -1,5 +1,7 @@
 package com.example.moneyconverter.Utils
 
+import android.util.Log
+
 /**
  * TODO: Comment
  *
@@ -12,4 +14,11 @@ object AppUtils {
     const val INITIAL_DELAY = 100L
     const val REFRESH_TIMESTAMP = 3000L
     const val TAG = "MoneyConverter"
+
+    fun Any.logV(message: String, tag: String? = null) = Log.v(buildTag(this::class.java.name, tag), message)
+
+    private fun buildTag(className: String?, tag: String?): String = when {
+        !className.isNullOrEmpty() -> className
+        else -> tag ?: "com.example.money.converter"
+    }
 }

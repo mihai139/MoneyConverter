@@ -1,7 +1,6 @@
 package com.example.moneyconverter.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyconverter.R
 import com.example.moneyconverter.Utils.AppUtils
+import com.example.moneyconverter.Utils.AppUtils.logV
 import com.example.moneyconverter.adapter.RatesAdapter
 import com.example.moneyconverter.network.RatesConverterClient
 import com.example.moneyconverter.network.RatesConverterInterface
@@ -77,7 +77,7 @@ class HomeFragment : BaseFragment() {
                     val textCurrentTimestamp = getString(R.string.current_timestamp, System.currentTimeMillis().toString())
                     timestamp_text_view?.text = textCurrentTimestamp
                 },
-                { Log.e(AppUtils.TAG, "Error occured while getting the rate object: $it") }))
+                { logV( "Error occured while getting the rate object: $it") }))
     }
 
 

@@ -1,10 +1,10 @@
 package com.example.moneyconverter.navigator
 
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.moneyconverter.MainActivity
 import com.example.moneyconverter.R
-import com.example.moneyconverter.settings.SettingsFragment
+import com.example.moneyconverter.ui.SettingsFragment
 import com.example.moneyconverter.ui.HistoryFragment
 import com.example.moneyconverter.ui.HomeFragment
 
@@ -13,13 +13,7 @@ import com.example.moneyconverter.ui.HomeFragment
  *
  * @author Mihai Andrei on 3/7/20
  */
-class UINavigator(private val activity: MainActivity) {
-
-    private inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
-        val fragmentTransaction = beginTransaction()
-        fragmentTransaction.func()
-        fragmentTransaction.commit()
-    }
+class UINavigator(private val activity: FragmentActivity) {
 
     fun showHomeScreen() {
         activity.supportFragmentManager.inTransaction {
@@ -35,7 +29,15 @@ class UINavigator(private val activity: MainActivity) {
 
     fun showSettingsScreen() {
         activity.supportFragmentManager.inTransaction {
-            replace(R.id.ui_screen, SettingsFragment())
+            replace(R.id.ui_screen,
+                SettingsFragment()
+            )
         }
+    }
+
+    private inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
+        val fragmentTransaction = beginTransaction()
+        fragmentTransaction.func()
+        fragmentTransaction.commit()
     }
 }

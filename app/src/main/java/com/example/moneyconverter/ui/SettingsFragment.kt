@@ -13,8 +13,7 @@ import com.example.moneyconverter.navigator.UINavigator
  *
  * @author Mihai Andrei on 3/7/20
  */
-
-class HistoryFragment : BaseFragment() {
+class SettingsFragment : BaseFragment() {
 
     private lateinit var uiNavigator: UINavigator
 
@@ -24,7 +23,7 @@ class HistoryFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_history, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
