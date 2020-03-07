@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyconverter.R
 import com.example.moneyconverter.Utils.AppUtils
+import com.example.moneyconverter.Utils.AppUtils.INITIAL_DELAY
 import com.example.moneyconverter.Utils.AppUtils.logV
 import com.example.moneyconverter.adapter.RatesAdapter
 import com.example.moneyconverter.network.RatesConverterClient
@@ -50,7 +51,7 @@ class HomeFragment : BaseFragment() {
         super.onResume()
 
         ratesDisposable = Observable.interval(
-            AppUtils.INITIAL_DELAY, AppUtils.REFRESH_TIMESTAMP,
+            INITIAL_DELAY, (AppUtils.AppPreferences.refreshRate * 1000L),
             TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::callApi)
