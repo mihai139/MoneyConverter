@@ -1,8 +1,8 @@
 package com.example.moneyconverter.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.moneyconverter.data.RateObject
-import com.example.moneyconverter.repository.RatesRepository
+import com.example.moneyconverter.model.RateObject
+import com.example.moneyconverter.datasource.RatesRepository
 import io.reactivex.Observable
 
 /**

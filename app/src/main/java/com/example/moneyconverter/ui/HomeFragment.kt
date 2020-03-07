@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyconverter.R
-import com.example.moneyconverter.Utils.AppUtils
-import com.example.moneyconverter.Utils.AppUtils.INITIAL_DELAY
-import com.example.moneyconverter.Utils.AppUtils.logV
-import com.example.moneyconverter.adapter.RatesAdapter
-import com.example.moneyconverter.navigator.UINavigator.Companion.BUNDLE_PAIR_OBJECT
+import com.example.moneyconverter.utils.AppUtils.INITIAL_DELAY
+import com.example.moneyconverter.utils.AppUtils.logV
+import com.example.moneyconverter.ui.rates.RatesAdapter
+import com.example.moneyconverter.UINavigator.Companion.BUNDLE_PAIR_OBJECT
+import com.example.moneyconverter.utils.AppPreferences
 import com.example.moneyconverter.viewmodel.RatesViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment() {
         super.onResume()
 
         ratesDisposable = Observable.interval(
-            INITIAL_DELAY, (AppUtils.AppPreferences.refreshRate * 1000L),
+            INITIAL_DELAY, (AppPreferences.refreshRate * 1000L),
             TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::callApi)

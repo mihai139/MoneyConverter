@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.moneyconverter.R
-import com.example.moneyconverter.navigator.UINavigator
+import com.example.moneyconverter.UINavigator
 
 /**
  * TODO: Comment

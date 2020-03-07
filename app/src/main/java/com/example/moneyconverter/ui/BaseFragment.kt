@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
-import com.example.moneyconverter.Utils.AppUtils.logV
+import com.example.moneyconverter.utils.AppUtils.logV
 import io.reactivex.disposables.CompositeDisposable
 
 /**

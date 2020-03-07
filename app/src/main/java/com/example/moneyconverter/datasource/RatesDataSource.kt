@@ -1,8 +1,5 @@
 package com.example.moneyconverter.datasource
 
-import com.example.moneyconverter.network.RatesConverterInterface
-
-
 /**
  * TODO: Comment
  *

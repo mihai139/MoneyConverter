@@ -4,8 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.example.moneyconverter.Utils.AppUtils.logV
-import com.example.moneyconverter.navigator.UINavigator
+import com.example.moneyconverter.utils.AppUtils.logV
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,12 +26,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.history -> {
-                logV("History pressed")
                 uiNavigator.showHistoryScreen()
                 true
             }
             R.id.settings -> {
-                logV("Settings pressed")
                 uiNavigator.showSettingsScreen()
                 true
             }

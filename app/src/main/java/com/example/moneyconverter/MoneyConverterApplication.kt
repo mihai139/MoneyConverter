@@ -1,8 +1,8 @@
 package com.example.moneyconverter
 
 import android.app.Application
-import com.example.moneyconverter.Utils.AppUtils
-import com.example.moneyconverter.di.appModule
+import com.example.moneyconverter.di.viewModelModule
+import com.example.moneyconverter.utils.AppPreferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,8 +18,9 @@ class MoneyConverterApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MoneyConverterApplication)
-            modules(listOf(appModule))
+            modules(listOf(viewModelModule))
         }
-        AppUtils.AppPreferences.init(this)
+
+        AppPreferences.init(this)
     }
 }

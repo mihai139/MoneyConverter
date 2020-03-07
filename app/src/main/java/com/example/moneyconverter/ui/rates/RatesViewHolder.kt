@@ -1,4 +1,4 @@
-package com.example.moneyconverter.adapter
+package com.example.moneyconverter.ui.rates
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

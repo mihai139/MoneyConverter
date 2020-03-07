@@ -1,10 +1,9 @@
-package com.example.moneyconverter.navigator
+package com.example.moneyconverter
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.moneyconverter.R
 import com.example.moneyconverter.ui.SettingsFragment
 import com.example.moneyconverter.ui.HistoryFragment
 import com.example.moneyconverter.ui.HomeFragment

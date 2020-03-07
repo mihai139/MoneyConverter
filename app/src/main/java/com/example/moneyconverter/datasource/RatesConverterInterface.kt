@@ -1,6 +1,6 @@
-package com.example.moneyconverter.network
+package com.example.moneyconverter.datasource
 
-import com.example.moneyconverter.data.RateObject
+import com.example.moneyconverter.model.RateObject
 import io.reactivex.Observable
 import retrofit2.http.GET
 
@@ -12,7 +12,7 @@ import retrofit2.http.GET
 interface RatesConverterInterface {
 
     /**
-     * Get the list of the pots from the API
+     * Get the list of the rates from the API
      */
     @GET("/latest")
     fun getRatesConverter(): Observable<RateObject>

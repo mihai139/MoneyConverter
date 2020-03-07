@@ -1,4 +1,4 @@
-package com.example.moneyconverter.adapter
+package com.example.moneyconverter.ui.rates
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,7 +16,10 @@ class RatesAdapter : RecyclerView.Adapter<RatesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return RatesViewHolder(inflater, parent)
+        return RatesViewHolder(
+            inflater,
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: RatesViewHolder, position: Int) {

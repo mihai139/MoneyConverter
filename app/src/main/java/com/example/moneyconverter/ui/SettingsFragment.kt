@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.moneyconverter.R
-import com.example.moneyconverter.Utils.AppUtils
-import com.example.moneyconverter.Utils.AppUtils.REFRESH_TIMESTAMPS
-import com.example.moneyconverter.Utils.AppUtils.logV
-import com.example.moneyconverter.navigator.UINavigator
+import com.example.moneyconverter.utils.AppUtils.REFRESH_TIMESTAMPS
+import com.example.moneyconverter.utils.AppUtils.logV
+import com.example.moneyconverter.UINavigator
+import com.example.moneyconverter.utils.AppPreferences
 import com.example.moneyconverter.viewmodel.RatesViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -61,7 +61,7 @@ class SettingsFragment : BaseFragment() {
 
         refresh_rate_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
-                AppUtils.AppPreferences.refreshRate = parent.getItemAtPosition(position) as Int
+                AppPreferences.refreshRate = parent.getItemAtPosition(position) as Int
                 logV("Spinner selected : ${parent.getItemAtPosition(position)}")
             }
 
