@@ -11,16 +11,35 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:textSize="16sp"
-        android:text="@string/change_refresh_rate"
+        android:text="@string/choose_refresh_rate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/refresh_rate_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toEndOf="@id/change_refresh_time_tv"
         app:layout_constraintTop_toTopOf="@id/change_refresh_time_tv" />
+
+    <TextView
+        android:id="@+id/change_currency_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:textSize="16sp"
+        android:text="@string/choose_currency_to_convert"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_refresh_time_tv" />
+
+    <Spinner
+        android:id="@+id/refresh_currency_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toEndOf="@id/change_currency_tv"
+        app:layout_constraintTop_toTopOf="@id/change_currency_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

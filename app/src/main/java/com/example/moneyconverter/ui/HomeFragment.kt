@@ -14,15 +14,13 @@ import com.example.moneyconverter.Utils.AppUtils
 import com.example.moneyconverter.Utils.AppUtils.INITIAL_DELAY
 import com.example.moneyconverter.Utils.AppUtils.logV
 import com.example.moneyconverter.adapter.RatesAdapter
-import com.example.moneyconverter.network.RatesConverterClient
-import com.example.moneyconverter.network.RatesConverterInterface
-import com.example.moneyconverter.repository.RatesRepository
 import com.example.moneyconverter.viewmodel.RatesViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.home_layout.*
+import org.koin.android.viewmodel.ext.android.getViewModel
 import java.util.concurrent.TimeUnit
 
 /**
@@ -32,16 +30,7 @@ import java.util.concurrent.TimeUnit
  */
 
 class HomeFragment : BaseFragment() {
-    private lateinit var repository: RatesRepository
-    private lateinit var viewModel: RatesViewModel
     private lateinit var ratesDisposable: Disposable
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val ratesService: RatesConverterInterface = RatesConverterClient.getClient()
-        repository = RatesRepository(ratesService)
-        viewModel = getViewModel()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.home_layout, container, false)
@@ -65,7 +54,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun callApi(long: Long) {
-        compositeDisposable.add(viewModel.ratesInfo
+        compositeDisposable.add(getViewModel<RatesViewModel>().ratesInfo
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe  (
@@ -79,17 +68,6 @@ class HomeFragment : BaseFragment() {
                     timestamp_text_view?.text = textCurrentTimestamp
                 },
                 { logV( "Error occured while getting the rate object: $it") }))
-    }
-
-
-    private fun getViewModel(): RatesViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>) : T {
-                @Suppress("UNCHECKED_CAST")
-                return RatesViewModel(repository) as T
-            }
-
-        })[RatesViewModel::class.java]
     }
 
     override fun onPause() {

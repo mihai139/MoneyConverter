@@ -4,6 +4,7 @@
     <string name="currencies_based_on">Currencies based on %1$s</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
-    <string name="change_refresh_rate">Change refresh time in seconds: </string>
+    <string name="choose_refresh_rate">Choose refresh time in seconds: </string>
+    <string name="choose_currency_to_convert">Choose currency to convert: </string>
 
 </resources>
