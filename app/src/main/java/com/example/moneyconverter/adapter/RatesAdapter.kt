@@ -3,7 +3,6 @@ package com.example.moneyconverter.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moneyconverter.data.RateBase
 
 /**
  * TODO: Comment
@@ -11,7 +10,7 @@ import com.example.moneyconverter.data.RateBase
  * @author Mihai Andrei on 3/4/20
  */
 
-class RatesAdapter(val list: List<RateBase>) : RecyclerView.Adapter<RatesViewHolder>() {
+class RatesAdapter(private val ratesList: List<String>) : RecyclerView.Adapter<RatesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -19,10 +18,14 @@ class RatesAdapter(val list: List<RateBase>) : RecyclerView.Adapter<RatesViewHol
     }
 
     override fun onBindViewHolder(holder: RatesViewHolder, position: Int) {
-        val rateBase: RateBase = list[position]
+
+        val currencyName = ratesList[position].substringBefore("=")
+        val currencyValue = ratesList[position].substringAfter("=").toFloat()
+
+        val rateBase: Pair<String, Float> = Pair(currencyName, currencyValue)
         holder.bind(rateBase)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = ratesList.size
 
 }

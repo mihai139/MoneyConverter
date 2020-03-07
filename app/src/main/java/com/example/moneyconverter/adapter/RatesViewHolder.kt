@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyconverter.R
-import com.example.moneyconverter.data.RateBase
 
 /**
  * TODO: Comment
@@ -18,15 +17,13 @@ class RatesViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var rateName: TextView? = null
     private var rateValue: TextView? = null
 
-
     init {
         rateName = itemView.findViewById(R.id.rate_name_text_view)
         rateValue = itemView.findViewById(R.id.rate_value_text_view)
     }
 
-    fun bind(rate: RateBase) {
-        rateName?.text = rate.name
-        rateValue?.text = rate.value.toString()
+    fun bind(ratesList: Pair<String, Float>) {
+        rateName?.text = ratesList.first
+        rateValue?.text = ratesList.second.toString()
     }
-
 }
